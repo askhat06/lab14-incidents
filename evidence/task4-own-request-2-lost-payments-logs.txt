@@ -1,0 +1,12 @@
+## lab-akylbek-2: payments 1.1.0 was up only 8 s (17:22:42 -> rollback 17:22:50)
+curl -> HTTP/1.1 502 BAD GATEWAY, X-Request-ID: lab-akylbek-2, {"error":"payment failed","order":"failed"}
+
+# loki: {service=~"shop|payments"} |= "lab-akylbek-2"   (17:23:20 UTC)
+{"ts": "2026-11-25T17:22:48.341+00:00", "level": "ERROR", "service": "shop", "version": "1.0.0", "msg": "request", "request_id": "lab-akylbek-2", "method": "POST", "path": "/api/checkout", "status": 502, "duration_ms": 48.6, "card": "unionpay", "upstream_status": 500}
+
+# loki: {service="payments"} | json | version="1.1.0"    (17:23:22 UTC)
+(no lines)
+
+Only the shop half arrived: the payments 1.1.0 container was removed before Alloy's Docker discovery
+started tailing it, so its log lines never reached Loki. Repeated as lab-akylbek-3 with 1.1.0 kept up
+for ~55 s (17:23:40 -> 17:24:35): both halves present, see task4-own-request-1.1.0.txt.

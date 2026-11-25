@@ -1,0 +1,61 @@
+### Impact (incident 14:31:14 -> 14:53:16, 22m02s)
+# prom: sum(increase(http_requests_total{job="shop",route="/api/checkout",status=~"5.."}[1322s] @ 1795618396))
+# at 2026-11-25 14:53:35 UTC
+{}  =>  165.3
+# prom: sum(increase(http_requests_total{job="shop",route="/api/checkout"}[1322s] @ 1795618396))
+# at 2026-11-25 14:53:37 UTC
+{}  =>  1448
+# prom: sum by (status) (increase(http_requests_total{job="shop",route="/api/checkout"}[1322s] @ 1795618396))
+# at 2026-11-25 14:53:39 UTC
+{status="200"}  =>  1283
+{status="502"}  =>  165.3
+### outage only 14:46:16 -> 14:48:16 (+30s after start)
+# prom: sum(increase(http_requests_total{job="shop",route="/api/checkout",status=~"5.."}[150s] @ 1795618126))
+# at 2026-11-25 14:53:42 UTC
+{}  =>  30
+# prom: sum(increase(http_requests_total{job="shop",route="/api/checkout"}[150s] @ 1795618126))
+# at 2026-11-25 14:53:44 UTC
+{}  =>  66.21
+### average checkout rate before incident (req/min), 14:16-14:31
+# prom: sum(rate(http_requests_total{job="shop",route="/api/checkout"}[15m] @ 1795617060)) * 60
+# at 2026-11-25 14:53:46 UTC
+{}  =>  64.96
+### restarts
+# prom: changes(process_start_time_seconds{job="payments"}[1h])
+# at 2026-11-25 14:53:48 UTC
+{instance="payments:8000", job="payments"}  =>  4
+# promr: process_start_time_seconds{job="payments"}
+# at 2026-11-25 14:53:51 UTC
+{__name__="process_start_time_seconds", instance="payments:8000", job="payments"}
+   14:08:51=1.796e+09  14:09:21=1.796e+09  14:09:51=1.796e+09  14:10:21=1.796e+09  14:10:51=1.796e+09  14:11:21=1.796e+09  14:11:51=1.796e+09  14:12:21=1.796e+09  14:12:51=1.796e+09  14:13:21=1.796e+09  14:13:51=1.796e+09  14:14:21=1.796e+09  14:14:51=1.796e+09  14:15:21=1.796e+09  14:15:51=1.796e+09  14:16:21=1.796e+09  14:16:51=1.796e+09  14:17:21=1.796e+09  14:17:51=1.796e+09  14:18:21=1.796e+09  14:18:51=1.796e+09  14:19:21=1.796e+09  14:19:51=1.796e+09  14:20:21=1.796e+09  14:20:51=1.796e+09  14:21:21=1.796e+09  14:21:51=1.796e+09  14:22:21=1.796e+09  14:22:51=1.796e+09  14:23:21=1.796e+09  14:23:51=1.796e+09  14:24:21=1.796e+09  14:24:51=1.796e+09  14:25:21=1.796e+09  14:25:51=1.796e+09  14:26:21=1.796e+09  14:26:51=1.796e+09  14:27:21=1.796e+09  14:27:51=1.796e+09  14:28:21=1.796e+09  14:28:51=1.796e+09  14:29:21=1.796e+09  14:29:51=1.796e+09  14:30:21=1.796e+09  14:30:51=1.796e+09  14:31:21=1.796e+09  14:31:51=1.796e+09  14:32:21=1.796e+09  14:32:51=1.796e+09  14:33:21=1.796e+09  14:33:51=1.796e+09  14:34:21=1.796e+09  14:34:51=1.796e+09  14:35:21=1.796e+09  14:35:51=1.796e+09  14:36:21=1.796e+09  14:36:51=1.796e+09  14:37:21=1.796e+09  14:37:51=1.796e+09  14:38:21=1.796e+09  14:38:51=1.796e+09  14:39:21=1.796e+09  14:39:51=1.796e+09  14:40:21=1.796e+09  14:40:51=1.796e+09  14:41:21=1.796e+09  14:41:51=1.796e+09  14:42:21=1.796e+09  14:42:51=1.796e+09  14:43:21=1.796e+09  14:43:51=1.796e+09  14:44:21=1.796e+09  14:44:51=1.796e+09  14:45:21=1.796e+09  14:45:51=1.796e+09  14:48:21=1.796e+09  14:48:51=1.796e+09  14:49:21=1.796e+09  14:49:51=1.796e+09  14:50:21=1.796e+09  14:50:51=1.796e+09  14:51:21=1.796e+09  14:51:51=1.796e+09  14:52:21=1.796e+09  14:52:51=1.796e+09  14:53:21=1.796e+09  14:53:51=1.796e+09
+# promr: up{job="payments"}
+# at 2026-11-25 14:53:53 UTC
+{__name__="up", instance="payments:8000", job="payments"}
+   14:41:53=1  14:42:03=1  14:42:13=1  14:42:23=1  14:42:33=1  14:42:43=1  14:42:53=1  14:43:03=1  14:43:13=1  14:43:23=1  14:43:33=1  14:43:43=1  14:43:53=1  14:44:03=1  14:44:13=1  14:44:23=1  14:44:33=1  14:44:43=1  14:44:53=1  14:45:03=1  14:45:13=1  14:45:23=1  14:45:33=1  14:45:43=1  14:45:53=1  14:46:03=1  14:46:13=1  14:46:23=0  14:46:33=0  14:46:43=0  14:46:53=0  14:47:03=0  14:47:13=0  14:47:23=0  14:47:33=0  14:47:43=0  14:47:53=0  14:48:03=0  14:48:13=0  14:48:23=1  14:48:33=1  14:48:43=1  14:48:53=1  14:49:03=1  14:49:13=1  14:49:23=1  14:49:33=1  14:49:43=1  14:49:53=1  14:50:03=1  14:50:13=1  14:50:23=1  14:50:33=1  14:50:43=1  14:50:53=1  14:51:03=1  14:51:13=1  14:51:23=1  14:51:33=1  14:51:43=1  14:51:53=1  14:52:03=1  14:52:13=1  14:52:23=1  14:52:33=1  14:52:43=1  14:52:53=1  14:53:03=1  14:53:13=1  14:53:23=1  14:53:33=1  14:53:43=1  14:53:53=1
+### logs
+# lokim: sum by (version, card) (count_over_time({service="payments"} | json | status >= 500 [1322s] @ 1795618396))
+# at 2026-11-25 14:53:55 UTC
+Traceback (most recent call last):
+  File "C:\Users\askha\AppData\Local\Temp\claude\1ef843d6958dd4f3\249a3df6-1146-4767-9ae6-aa387a260a95\scratchpad\q.py", line 70, in <module>
+    show_vector(get(LOKI, "query", query=q))
+                ~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\askha\AppData\Local\Temp\claude\1ef843d6958dd4f3\249a3df6-1146-4767-9ae6-aa387a260a95\scratchpad\q.py", line 17, in get
+    with urllib.request.urlopen(url, timeout=60) as r:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\askha\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\askha\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 493, in open
+    response = meth(req, response)
+  File "C:\Users\askha\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 602, in http_response
+    response = self.parent.error(
+        'http', request, response, code, msg, hdrs)
+  File "C:\Users\askha\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 531, in error
+    return self._call_chain(*args)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+payments process started at 13:23:10
+payments process started at 13:38:24
+payments process started at 14:16:02
+payments process started at 14:31:13
+payments process started at 14:48:15
+payments process started at 14:53:17

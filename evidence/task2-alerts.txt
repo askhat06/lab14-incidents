@@ -1,0 +1,30 @@
+# prom: ALERTS{alertname=~"Checkout.*"}
+# at 2026-11-25 14:15:14 UTC
+{__name__="ALERTS", alertname="CheckoutErrorBudgetSlowBurn", alertstate="firing", service="shop", severity="ticket", slo="checkout-availability"}  =>  1
+{__name__="ALERTS", alertname="CheckoutErrorBudgetFastBurn", alertstate="firing", service="shop", severity="page", slo="checkout-availability"}  =>  1
+# prom: {__name__=~"slo:checkout_error_ratio:.*"}
+# at 2026-11-25 14:15:16 UTC
+{__name__="slo:checkout_error_ratio:rate5m"}  =>  0.1161
+{__name__="slo:checkout_error_ratio:rate30m"}  =>  0.1064
+{__name__="slo:checkout_error_ratio:rate1h"}  =>  0.07276
+{__name__="slo:checkout_error_ratio:rate6h"}  =>  0.07276
+# prom: slo:checkout_error_ratio:rate1h / 0.005
+# at 2026-11-25 14:15:19 UTC
+{}  =>  14.52
+# prom: slo:checkout_error_ratio:rate5m / 0.005
+# at 2026-11-25 14:15:21 UTC
+{}  =>  23.01
+# promr: ALERTS{alertname="CheckoutErrorBudgetFastBurn"}
+# at 2026-11-25 14:15:23 UTC
+{__name__="ALERTS", alertname="CheckoutErrorBudgetFastBurn", alertstate="firing", service="shop", severity="page", slo="checkout-availability"}
+   14:14:53=1  14:15:23=1
+{__name__="ALERTS", alertname="CheckoutErrorBudgetFastBurn", alertstate="pending", service="shop", severity="page", slo="checkout-availability"}
+   14:13:53=1  14:14:23=1
+# promr: slo:checkout_error_ratio:rate1h / 0.005
+# at 2026-11-25 14:15:26 UTC
+{}
+   13:29:26=0  13:31:26=0  13:33:26=0  13:35:26=0  13:37:26=0  13:39:26=1.114  13:41:26=2.551  13:43:26=3.469  13:45:26=5.147  13:47:26=6.265  13:49:26=7.4  13:51:26=8.144  13:53:26=9.247  13:55:26=9.768  13:57:26=10.22  13:59:26=10.8  14:01:26=11.26  14:03:26=12.22  14:05:26=12.99  14:07:26=13.33  14:09:26=13.58  14:11:26=13.95  14:13:26=14.29  14:15:26=14.52
+# promr: slo:checkout_error_ratio:rate5m / 0.005
+# at 2026-11-25 14:15:28 UTC
+{}
+   13:29:28=0  13:31:28=0  13:33:28=0  13:35:28=0  13:37:28=0  13:39:28=3.666  13:41:28=9.126  13:43:28=14.37  13:45:28=17.14  13:47:28=20.06  13:49:28=19.94  13:51:28=16.67  13:53:28=22.09  13:55:28=19.07  13:57:28=18.59  13:59:28=17.79  14:01:28=19.39  14:03:28=23.62  14:05:28=27.35  14:07:28=26.02  14:09:28=24.85  14:11:28=22.29  14:13:28=22.67  14:15:28=23.28

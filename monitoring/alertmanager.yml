@@ -1,0 +1,20 @@
+route:
+  receiver: tickets                 # default: look at it during working hours
+  group_by: [alertname, job]        # one notification per problem per service, not per label combination
+  group_wait: 30s                   # collect alerts that start together into one message
+  group_interval: 5m                # new alerts for an existing group: at most every 5 min
+  repeat_interval: 4h               # still firing? remind every 4h, not every minute
+  routes:
+    - matchers: [severity="page"]
+      receiver: pager
+      repeat_interval: 1h
+
+receivers:
+  - name: pager
+    webhook_configs:
+      - url: http://webhook:8080/pager
+        send_resolved: true
+  - name: tickets
+    webhook_configs:
+      - url: http://webhook:8080/tickets
+        send_resolved: true

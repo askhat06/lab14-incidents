@@ -1,0 +1,4 @@
+# after: docker compose down && docker compose up -d   (2026-11-25T15:22:06Z)
+alertmanager running alloy running grafana running loki running payments running prometheus running shop running traffic running webhook running 
+title: ShopLab — RED | panels: 10 | provisioned: True | folder: lab14
+['ShopLab — RED']

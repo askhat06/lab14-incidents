@@ -1,0 +1,8 @@
+2026-11-25T13:38:22Z DEPLOY payments 1.1.0 (Task 2 + Task 3 'before' phase 2)
+2026-11-25T14:16:03Z ROLLBACK payments 1.0.0 (end of Task 2)
+2026-11-25T14:16:04Z CONFIG switched to final rules.yml + alertmanager.yml (Task 3 'after' window starts)
+2026-11-25T14:31:14Z DEPLOY payments 1.1.0 (Task 3 'after' phase 2 + FINAL CHALLENGE start)
+2026-11-25T14:46:16Z STOP payments (FINAL CHALLENGE outage start)
+2026-11-25T14:48:16Z START payments (still 1.1.0, outage end)
+2026-11-25T14:53:18Z ROLLBACK payments 1.0.0 (FINAL CHALLENGE end)
+2026-11-25T15:21:47Z docker compose down && up -d (Task 5 test)

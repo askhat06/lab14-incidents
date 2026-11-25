@@ -1,0 +1,17 @@
+## own request on payments 1.0.0
+Wed Nov 25 17:22:39 UTC 2026
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.9 Python/3.12.16
+Date: Wed, 25 Nov 2026 17:22:39 GMT
+Content-Type: application/json
+Content-Length: 63
+X-Request-ID: lab-akylbek-1
+Connection: close
+
+{"order":"accepted","payment":{"card":"unionpay","paid":1000}}
+
+
+# loki: {service=~"shop|payments"} |= "lab-akylbek-1"
+# at 2026-11-25 17:23:06 UTC
+{"ts": "2026-11-25T17:22:39.901+00:00", "level": "INFO", "service": "shop", "version": "1.0.0", "msg": "request", "request_id": "lab-akylbek-1", "method": "POST", "path": "/api/checkout", "status": 200, "duration_ms": 72.8, "card": "unionpay"}
+{"ts": "2026-11-25T17:22:39.900+00:00", "level": "INFO", "service": "payments", "version": "1.0.0", "msg": "request", "request_id": "lab-akylbek-1", "method": "POST", "path": "/api/pay", "status": 200, "duration_ms": 70.8, "card": "unionpay", "amount": 1000}

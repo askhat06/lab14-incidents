@@ -1,0 +1,78 @@
+groups:
+  - name: availability
+    rules:
+      - alert: TargetDown
+        expr: up == 0
+        for: 30s
+        labels: { severity: page }
+        annotations:
+          summary: "{{ $labels.job }} ({{ $labels.instance }}) cannot be scraped for 30s — service down?"
+          runbook_url: https://github.com/askhat06/lab14-incidents/blob/main/runbooks/target-down.md
+
+      # Replaces the starter "ErrorsDetected": a ratio, per service, with minimum traffic and a duration.
+      - alert: HighErrorRatio
+        expr: |
+          (
+            sum by (job) (rate(http_requests_total{status=~"5.."}[5m]))
+            / sum by (job) (rate(http_requests_total[5m]))
+          ) > 0.02
+          and on (job)
+          sum by (job) (rate(http_requests_total[5m])) > 0.2
+        for: 5m
+        labels: { severity: page }
+        annotations:
+          summary: "{{ $labels.job }}: {{ $value | humanizePercentage }} of requests fail with 5xx over 5m (threshold 2 %)"
+          runbook_url: https://github.com/askhat06/lab14-incidents/blob/main/runbooks/high-error-ratio.md
+
+  # ---------- Task 2: checkout availability SLO (99.5 % / 30d) ----------
+  - name: slo-checkout-recording
+    rules:
+      - record: slo:checkout_error_ratio:rate5m
+        expr: |
+          (sum(rate(http_requests_total{job="shop",route="/api/checkout",status=~"5.."}[5m])) or vector(0))
+          / sum(rate(http_requests_total{job="shop",route="/api/checkout"}[5m]))
+      - record: slo:checkout_error_ratio:rate30m
+        expr: |
+          (sum(rate(http_requests_total{job="shop",route="/api/checkout",status=~"5.."}[30m])) or vector(0))
+          / sum(rate(http_requests_total{job="shop",route="/api/checkout"}[30m]))
+      - record: slo:checkout_error_ratio:rate1h
+        expr: |
+          (sum(rate(http_requests_total{job="shop",route="/api/checkout",status=~"5.."}[1h])) or vector(0))
+          / sum(rate(http_requests_total{job="shop",route="/api/checkout"}[1h]))
+      - record: slo:checkout_error_ratio:rate6h
+        expr: |
+          (sum(rate(http_requests_total{job="shop",route="/api/checkout",status=~"5.."}[6h])) or vector(0))
+          / sum(rate(http_requests_total{job="shop",route="/api/checkout"}[6h]))
+      # burn rate = error ratio / error budget (0.005); used by the dashboard
+      - record: slo:checkout_burn_rate:rate1h
+        expr: slo:checkout_error_ratio:rate1h / 0.005
+      - record: slo:checkout_burn_rate:rate5m
+        expr: slo:checkout_error_ratio:rate5m / 0.005
+
+  - name: slo-checkout-alerts
+    rules:
+      - alert: CheckoutErrorBudgetFastBurn
+        expr: |
+          slo:checkout_error_ratio:rate1h > (14.4 * 0.005)
+          and
+          slo:checkout_error_ratio:rate5m > (14.4 * 0.005)
+        for: 1m
+        labels: { severity: page, service: shop, slo: checkout-availability }
+        annotations:
+          summary: >-
+            Checkout is burning its 30-day error budget {{ with query "slo:checkout_burn_rate:rate1h" }}{{ . | first | value | printf "%.1f" }}{{ end }}x too fast
+            ({{ $value | humanizePercentage }} of checkouts fail over 1h; SLO 99.5 %)
+          runbook_url: https://github.com/askhat06/lab14-incidents/blob/main/runbooks/checkout-slo.md
+
+      - alert: CheckoutErrorBudgetSlowBurn
+        expr: |
+          slo:checkout_error_ratio:rate6h > (6 * 0.005)
+          and
+          slo:checkout_error_ratio:rate30m > (6 * 0.005)
+        for: 5m
+        labels: { severity: ticket, service: shop, slo: checkout-availability }
+        annotations:
+          summary: >-
+            Checkout is burning its 30-day error budget {{ with query "slo:checkout_error_ratio:rate6h / 0.005" }}{{ . | first | value | printf "%.1f" }}{{ end }}x too fast
+            ({{ $value | humanizePercentage }} of checkouts fail over 6h; SLO 99.5 %)
+          runbook_url: https://github.com/askhat06/lab14-incidents/blob/main/runbooks/checkout-slo.md

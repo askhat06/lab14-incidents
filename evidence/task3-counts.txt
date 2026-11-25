@@ -1,0 +1,20 @@
+===== BEFORE (starter): 59 notifications, FIRING=51, RESOLVED=8
+  -- payments 1.0.0: 16
+      13 ('/everyone', 'FIRING', 'ErrorsDetected')
+       3 ('/everyone', 'RESOLVED', 'ErrorsDetected')
+  -- payments 1.1.0: 43
+       2 ('/everyone', 'FIRING', 'CheckoutErrorBudgetSlowBurn')
+      36 ('/everyone', 'FIRING', 'ErrorsDetected')
+       5 ('/everyone', 'RESOLVED', 'ErrorsDetected')
+  distinct paths: ['/everyone']
+===== AFTER (final): 11 notifications, FIRING=7, RESOLVED=4
+  -- payments 1.0.0: 8
+       1 ('/pager', 'FIRING', 'CheckoutErrorBudgetFastBurn')
+       2 ('/pager', 'FIRING', 'ErrorsDetected')
+       1 ('/pager', 'RESOLVED', 'CheckoutErrorBudgetFastBurn')
+       3 ('/pager', 'RESOLVED', 'ErrorsDetected')
+       1 ('/tickets', 'FIRING', 'CheckoutErrorBudgetSlowBurn')
+  -- payments 1.1.0: 3
+       1 ('/pager', 'FIRING', 'CheckoutErrorBudgetFastBurn')
+       2 ('/pager', 'FIRING', 'HighErrorRatio')
+  distinct paths: ['/pager', '/tickets']

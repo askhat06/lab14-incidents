@@ -1,0 +1,28 @@
+# lokim: sum by (card, version) (count_over_time({service="payments"} | json | msg="request" and status >= 500 [30m]))
+# at 2026-11-25 15:01:41 UTC
+{card="unionpay", version="1.1.0"}  =>  140
+# lokim: sum by (card, version) (count_over_time({service="payments"} | json | msg="request" [30m]))
+# at 2026-11-25 15:01:43 UTC
+{card="mastercard", version="1.0.0"}  =>  159
+{card="mastercard", version="1.1.0"}  =>  402
+{card="unionpay", version="1.0.0"}  =>  53
+{card="unionpay", version="1.1.0"}  =>  139
+{card="visa", version="1.0.0"}  =>  314
+{card="visa", version="1.1.0"}  =>  850
+{version="1.0.0"}  =>  1
+{version="1.1.0"}  =>  1
+# lokim: sum by (version) (count_over_time({service="payments"} |~ `[0-9]{16}` | json [1h]))
+# at 2026-11-25 15:01:45 UTC
+{version="1.1.0"}  =>  2438
+# lokim: sum by (version) (count_over_time({service="payments"} |~ `[0-9]{16}` | json [100m]))
+# at 2026-11-25 15:01:47 UTC
+{version="1.1.0"}  =>  4102
+# promr: slo:checkout_error_ratio:rate5m
+# at 2026-11-25 15:01:50 UTC
+{__name__="slo:checkout_error_ratio:rate5m"}
+   14:49:50=0.2159  14:50:50=0.2294  14:51:50=0.1667  14:52:50=0.1243  14:53:50=0.1026  14:54:50=0.07808  14:55:50=0.05187  14:56:50=0.03909  14:57:50=0.01294  14:58:50=0  14:59:50=0  15:00:50=0  15:01:50=0
+# prom: sum by (job, route, status) (rate(http_requests_total{status=~"5.."}[5m] @ 1795618000))
+# at 2026-11-25 15:01:52 UTC
+{job="shop", route="/api/search", status="500"}  =>  0.01356
+{job="shop", route="/api/checkout", status="502"}  =>  0.122
+{job="payments", route="/api/pay", status="500"}  =>  0.109

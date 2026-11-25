@@ -1,0 +1,23 @@
+# loki: {service="shop"} | json | upstream_error != "" | line_format "{{.ts}} {{.status}} {{.duration_ms}}ms {{.upstream_error}}"
+# at 2026-11-25 14:54:15 UTC
+2026-11-25T14:53:22.148+00:00 502 3983.9ms <urlopen error [Errno -2] Name or service not known>
+2026-11-25T14:48:17.421+00:00 502 3972.7ms <urlopen error [Errno -2] Name or service not known>
+2026-11-25T14:48:13.363+00:00 502 3959.2ms <urlopen error [Errno -2] Name or service not known>
+2026-11-25T14:48:07.458+00:00 502 3951.2ms <urlopen error [Errno -2] Name or service not known>
+2026-11-25T14:48:02.968+00:00 502 3968.1ms <urlopen error [Errno -2] Name or service not known>
+2026-11-25T14:47:58.772+00:00 502 3947.8ms <urlopen error [Errno -2] Name or service not known>
+2026-11-25T14:47:54.500+00:00 502 3945.5ms <urlopen error [Errno -2] Name or service not known>
+2026-11-25T14:47:50.446+00:00 502 3950.2ms <urlopen error [Errno -2] Name or service not known>
+# lokim: sum by (upstream_error) (count_over_time({service="shop"} | json | upstream_error != "" [10m]))
+# at 2026-11-25 14:54:17 UTC
+{upstream_error="<urlopen error [Errno -2] Name or service not known>"}  =>  25
+{upstream_error="<urlopen error [Errno -5] No address associated with hostname>"}  =>  1
+# lokim: avg(avg_over_time({service="shop"} | json | upstream_error != "" | unwrap duration_ms [10m]))
+# at 2026-11-25 14:54:20 UTC
+{}  =>  3961
+# lokim: sum by (version, card) (count_over_time({service="payments"} | json | status >= 500 [23m]))
+# at 2026-11-25 14:54:22 UTC
+{card="unionpay", version="1.1.0"}  =>  241
+# lokim: sum by (path) (count_over_time({service="shop"} | json | __error__="" [2m] @ 0))
+# at 2026-11-25 14:54:24 UTC
+NOTE: the 'sum by (version, card)' count above (241) was a wrong query; correct count: sum by (card) (count_over_time({service="payments"} | json | msg="request" and status >= 500 [24m])) => unionpay 141 at 14:55:03 (matches Prometheus 139.7)
