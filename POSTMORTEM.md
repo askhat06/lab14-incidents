@@ -145,13 +145,13 @@ sum(increase(http_requests_total{job="shop",route="/api/checkout",status=~"5.."}
 
 | # | action | type | owner | priority |
 |---|---|---|---|---|
-| 1 | **Canary release for payments** (week 12): send 5–10 % of traffic to the new version first, compare `sum by (version) (rate(http_requests_total{status=~"5.."}[5m]))` with the stable version and auto-rollback if the canary's error ratio is > 2× the baseline. Add the `version` label to the metrics to make this possible. | prevent | me | P1 |
-| 2 | **Integration test for every card type × KZT** in the payments CI pipeline (unionpay + KZT would have failed before merge). | prevent | me | P1 |
-| 3 | **Log redaction**: payments logs at most the last 4 digits (`card_last4`), plus a CI check / LogQL alert on `{service="payments"} \|~ "[0-9]{16}"` → page security. Delete the already stored lines (Loki delete API / shorten retention) and treat it as a data incident. | prevent + detect | me | P1 |
-| 4 | **Per-version error-ratio alert / deploy annotation**: alert when a version deployed < 1 h ago has an error ratio > 2 % (`HighErrorRatioNewVersion`), and show deploys as annotations on the "ShopLab — RED" dashboard. Would have paged ~5 min after 14:31 with "payments 1.1.0" in the text. | detect | me | P2 |
-| 5 | **Inhibition**: suppress `HighErrorRatio{job="shop"}` while `HighErrorRatio{job="payments"}` or `TargetDown{job="payments"}` fires — one page per incident, pointing at the cause. | detect | me | P2 |
-| 6 | **Fail fast in the shop**: lower the payments timeout to ~1 s, add a circuit breaker and a clear "payments temporarily unavailable, try again" response; run ≥ 2 payments replicas with health checks so a single stop is not an outage. | mitigate | me | P2 |
-| 7 | **Block re-deploying a version that was rolled back** (release checklist / pipeline flag "1.1.0 = bad") and **auto-rollback** when the fast-burn alert fires within 30 min of a deploy. | mitigate | me | P3 |
+| 1 | **Canary release for payments** (week 12): send 5–10 % of traffic to the new version first, compare `sum by (version) (rate(http_requests_total{status=~"5.."}[5m]))` with the stable version and auto-rollback if the canary's error ratio is > 2× the baseline. Add the `version` label to the metrics to make this possible. | prevent | A. Askhat | P1 |
+| 2 | **Integration test for every card type × KZT** in the payments CI pipeline (unionpay + KZT would have failed before merge). | prevent | A. Askhat | P1 |
+| 3 | **Log redaction**: payments logs at most the last 4 digits (`card_last4`), plus a CI check / LogQL alert on `{service="payments"} \|~ "[0-9]{16}"` → page security. Delete the already stored lines (Loki delete API / shorten retention) and treat it as a data incident. | prevent + detect | A. Askhat | P1 |
+| 4 | **Per-version error-ratio alert / deploy annotation**: alert when a version deployed < 1 h ago has an error ratio > 2 % (`HighErrorRatioNewVersion`), and show deploys as annotations on the "ShopLab — RED" dashboard. Would have paged ~5 min after 14:31 with "payments 1.1.0" in the text. | detect | A. Askhat | P2 |
+| 5 | **Inhibition**: suppress `HighErrorRatio{job="shop"}` while `HighErrorRatio{job="payments"}` or `TargetDown{job="payments"}` fires — one page per incident, pointing at the cause. | detect | A. Askhat | P2 |
+| 6 | **Fail fast in the shop**: lower the payments timeout to ~1 s, add a circuit breaker and a clear "payments temporarily unavailable, try again" response; run ≥ 2 payments replicas with health checks so a single stop is not an outage. | mitigate | A. Askhat | P2 |
+| 7 | **Block re-deploying a version that was rolled back** (release checklist / pipeline flag "1.1.0 = bad") and **auto-rollback** when the fast-burn alert fires within 30 min of a deploy. | mitigate | A. Askhat | P3 |
 
 ## Lessons
 

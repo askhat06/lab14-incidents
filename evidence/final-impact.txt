@@ -35,24 +35,9 @@
 ### logs
 # lokim: sum by (version, card) (count_over_time({service="payments"} | json | status >= 500 [1322s] @ 1795618396))
 # at 2026-11-25 14:53:55 UTC
-Traceback (most recent call last):
-  File "C:\Users\askha\AppData\Local\Temp\claude\1ef843d6958dd4f3\249a3df6-1146-4767-9ae6-aa387a260a95\scratchpad\q.py", line 70, in <module>
-    show_vector(get(LOKI, "query", query=q))
-                ~~~^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\askha\AppData\Local\Temp\claude\1ef843d6958dd4f3\249a3df6-1146-4767-9ae6-aa387a260a95\scratchpad\q.py", line 17, in get
-    with urllib.request.urlopen(url, timeout=60) as r:
-         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "C:\Users\askha\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 187, in urlopen
-    return opener.open(url, data, timeout)
-           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\askha\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 493, in open
-    response = meth(req, response)
-  File "C:\Users\askha\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 602, in http_response
-    response = self.parent.error(
-        'http', request, response, code, msg, hdrs)
-  File "C:\Users\askha\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 531, in error
-    return self._call_chain(*args)
-           ~~~~~~~~~~~~~~~~^^^^^^^
+=> HTTP 400 Bad Request: Loki does not support the PromQL '@' modifier in metric queries.
+   (Python traceback of the helper script removed.) The count was re-run without '@' over the
+   incident window instead: see evidence/final-outage-logs.txt (NOTE at the end: unionpay => 141).
 payments process started at 13:23:10
 payments process started at 13:38:24
 payments process started at 14:16:02
